@@ -20,7 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+require 'pebble/timeline_api'
+
+api = Pebble::TimelineAPI.new(ENV['PEBBLE_TIMELINE_API_KEY'])
+pins = Pebble::TimelineAPI::Pins.new(api)
+
+pins.create(id: "test-1", topics: 'test', time: "2015-06-10T08:01:10.229Z", layout: { shortTitle: 'test 1' })
+
+pins.delete("test-1")
+```
 
 ## Contributing
 

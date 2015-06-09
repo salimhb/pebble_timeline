@@ -1,5 +1,5 @@
 module Pebble
-  module TimelineApi
+  class TimelineAPI
     VERSION = '0.0.1'
   end
 end
