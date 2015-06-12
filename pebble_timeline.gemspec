@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'pebble/timeline_api/version'
+require 'pebble_timeline/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "pebble-timeline_api"
-  spec.version       = Pebble::TimelineAPI::VERSION
+  spec.name          = "pebble_timeline"
+  spec.version       = PebbleTimeline::VERSION
   spec.authors       = ["Salim Hbeiliny"]
   spec.email         = ["salim@hbeiliny.com"]
   spec.summary       = %q{A wrapper for the Pebble Timeline API}

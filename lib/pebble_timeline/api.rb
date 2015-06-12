@@ -1,35 +1,10 @@
-require 'active_support/configurable'
-require 'active_support/inflector'
-require 'faraday'
-require 'json'
-require 'roar/decorator'
-require 'roar/json'
-
-require 'pebble/timeline_api/version'
-require 'pebble/timeline_api/errors'
-
-require 'pebble/timeline_api/middleware/error_detector'
-
-require 'pebble/timeline_api/representer/action'
-require 'pebble/timeline_api/representer/reminder'
-require 'pebble/timeline_api/representer/layout'
-require 'pebble/timeline_api/representer/notification'
-require 'pebble/timeline_api/representer/pin'
-
-require 'pebble/timeline_api/pins'
-
-module Pebble
-  class TimelineAPI
-    include ActiveSupport::Configurable
-
-    config_accessor(:api_key)
-    config_accessor(:base_url) { 'https://timeline-api.getpebble.com/v1/' }
-
+module PebbleTimeline
+  class API
     def initialize(api_key = nil)
-      raise ConfigMissingAPIKeyError, 'You must provide an API Key' unless Pebble::TimelineAPI.config.api_key || api_key
+      raise ConfigMissingAPIKeyError, 'You must provide an API Key' unless PebbleTimeline.config.api_key || api_key
 
-      @api_key = Pebble::TimelineAPI.config.api_key || api_key
-      @base_url = Pebble::TimelineAPI.config.base_url
+      @api_key = PebbleTimeline.config.api_key || api_key
+      @base_url = PebbleTimeline.config.base_url
     end
 
     def call(url, http_method, params={})
@@ -42,7 +17,7 @@ module Pebble
         faraday.headers['Content-Type'] = 'application/json'
         faraday.headers['X-API-Key'] = @api_key
         faraday.adapter Faraday.default_adapter
-        faraday.use Pebble::TimelineAPI::Middleware::ErrorDetector
+        faraday.use PebbleTimeline::Middleware::ErrorDetector
       end
     end
 
