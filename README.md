@@ -1,6 +1,6 @@
 # PebbleTimeline
 
-TODO: Write a gem description
+This is a wrapper for the Pebble Timeline API documented [here](http://developer.getpebble.com/guides/timeline/)
 
 ## Installation
 
@@ -24,11 +24,16 @@ Or install it yourself as:
 require 'pebble_timeline'
 
 api = PebbleTimeline::API.new(ENV['PEBBLE_TIMELINE_API_KEY'])
+
+# Shared pins
 pins = PebbleTimeline::Pins.new(api)
-
-pins.create(id: "test-1", topics: 'test', time: "2015-06-10T08:01:10.229Z", layout: { shortTitle: 'test 1' })
-
+pins.create(id: "test-1", topics: 'test', time: "2015-06-10T08:01:10.229Z", layout: { type: 'genericPin', title: 'test 1' })
 pins.delete("test-1")
+
+# User pins
+user_pins = PebbleTimeline::Pins.new(api, 'user', USER_TOKEN)
+user_pins.create(id: "test-1", time: "2015-06-12T16:42:00Z", layout: { type: 'genericPin', title: 'test 1' })
+user_pins.delete("test-1")
 ```
 
 ## Contributing
