@@ -46,7 +46,10 @@ module PebbleTimeline
       end
 
       def delete(path, params)
-        connection.delete(resource_url(path), params)
+        connection.delete do |req|
+          req.url resource_url(path)
+          req.headers['X-User-Token'] = params.delete(:user_token) if params.has_key? :user_token
+        end
       end
 
       def resource_url(path)

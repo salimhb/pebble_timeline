@@ -1,20 +1,24 @@
 module PebbleTimeline
   class Pins
-    def initialize(master, type = 'shared')
+    def initialize(master, scope = 'shared', user_token = nil)
       @master = master
-      @type = type
+      @scope = scope
+      @user_token = user_token if @scope == 'user'
     end
 
     def create(params = {})
-      @master.call("#{@type}/pins/#{params[:id]}", :put, params)
+      params.merge!(user_token: @user_token) if @user_token
+      @master.call("#{@scope}/pins/#{params[:id]}", :put, params)
     end
 
     def update(id, params = {})
-      @master.call("#{@type}/pins/#{id}.json", :put, params)
+      params.merge!(user_token: @user_token) if @user_token
+      @master.call("#{@scope}/pins/#{id}.json", :put, params)
     end
 
-    def delete(id)
-      @master.call("#{@type}/pins/#{id}", :delete)
+    def delete(id, params = {})
+      params.merge!(user_token: @user_token) if @user_token
+      @master.call("#{@scope}/pins/#{id}", :delete, params)
     end
   end
 end
