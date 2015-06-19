@@ -17,6 +17,7 @@ require 'pebble_timeline/representer/notification'
 require 'pebble_timeline/representer/pin'
 
 require 'pebble_timeline/pins'
+require 'pebble_timeline/subscriptions'
 require 'pebble_timeline/api'
 
 module PebbleTimeline

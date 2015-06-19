@@ -8,6 +8,7 @@ module PebbleTimeline
 
       property :title
       property :type
+      property :launchCode
     end
   end
 end
