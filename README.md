@@ -23,9 +23,7 @@ Or install it yourself as:
 ```
 require 'pebble_timeline'
 
-PebbleTimeline.configure do |config|
-  config.api_key = API_KEY
-end
+PebbleTimeline.config.api_key = API_KEY
 
 # Shared pins
 pins = PebbleTimeline::Pins.new

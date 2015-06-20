@@ -1,5 +1,3 @@
-require 'active_support/configurable'
-require 'active_support/inflector'
 require 'faraday'
 require 'json'
 require 'roar/decorator'
@@ -21,8 +19,15 @@ require 'pebble_timeline/subscriptions'
 require 'pebble_timeline/api'
 
 module PebbleTimeline
-  include ActiveSupport::Configurable
 
-  config_accessor(:api_key)
-  config_accessor(:base_url) { 'https://timeline-api.getpebble.com/v1/' }
+  class Config
+    attr_accessor :api_key, :base_url
+  end
+
+  def self.config
+    @config ||= Config.new.tap do |c|
+      c.base_url = 'https://timeline-api.getpebble.com/v1/'
+    end
+  end
+
 end
