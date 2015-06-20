@@ -23,22 +23,23 @@ Or install it yourself as:
 ```
 require 'pebble_timeline'
 
-api = PebbleTimeline::API.new(API_KEY)
+PebbleTimeline.configure do |config|
+  config.api_key = API_KEY
+end
 
 # Shared pins
-pins = PebbleTimeline::Pins.new(api)
+pins = PebbleTimeline::Pins.new
 pins.create(id: "test-1", topics: 'test', time: "2015-06-19T20:00:00Z", layout: { type: 'genericPin', title: 'test 1' })
 pins.update("test-1", topics: 'test', time: "2015-06-19T20:00:00Z", layout: { type: 'genericPin', title: 'test 1' })
 pins.delete("test-1")
 
 # User pins
-user_pins = PebbleTimeline::Pins.new(api, 'user', USER_TOKEN)
+user_pins = PebbleTimeline::Pins.new('user', USER_TOKEN)
 user_pins.create(id: "test-1", time: "2015-06-12T16:42:00Z", layout: { type: 'genericPin', title: 'test 1' })
 user_pins.delete("test-1")
 
 # Subscriptions
-subscriptions = PebbleTimeline::Subscriptions.new(api)
-subscriptions.get(USER_TOKEN)
+PebbleTimeline::Subscriptions.get(USER_TOKEN)
 ```
 
 ## Contributing

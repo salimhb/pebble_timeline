@@ -1,27 +1,28 @@
 module PebbleTimeline
   class API
-    def initialize(api_key = nil)
-      raise ConfigMissingAPIKeyError, 'You must provide an API Key' unless PebbleTimeline.config.api_key || api_key
+    def initialize
+      raise ConfigMissingAPIKeyError, 'You must provide an API Key' unless PebbleTimeline.config.api_key
 
-      @api_key = PebbleTimeline.config.api_key || api_key
+      @api_key = PebbleTimeline.config.api_key
       @base_url = PebbleTimeline.config.base_url
     end
 
-    def call(url, http_method, params={})
-      response = send(http_method, url, params)
+    def self.call(url, http_method, params={})
+      @api ||= self.new
+      response = @api.send(http_method, url, params)
       response.body
     end
 
-    def connection
-      @connection ||= Faraday.new(url: @api_url) do |faraday|
-        faraday.headers['Content-Type'] = 'application/json'
-        faraday.headers['X-API-Key'] = @api_key
-        faraday.adapter Faraday.default_adapter
-        faraday.use PebbleTimeline::Middleware::ErrorDetector
-      end
-    end
-
     private
+
+      def connection
+        @connection ||= Faraday.new(url: @api_url) do |faraday|
+          faraday.headers['Content-Type'] = 'application/json'
+          faraday.headers['X-API-Key'] = @api_key
+          faraday.adapter Faraday.default_adapter
+          faraday.use PebbleTimeline::Middleware::ErrorDetector
+        end
+      end
 
       def post(path, params)
         connection.post do |req|
